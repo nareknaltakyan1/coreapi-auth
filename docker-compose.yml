@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  postgresql:
+    image: postgres:12-alpine
+    networks:
+      - db-network
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=S0m3h@rdPass!
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=coreapi_auth
+    volumes:
+      - my-db:/var/lib/postgresql
+      - ./.docker/setup-postgres.sql:/docker-entrypoint-initdb.d/setup.sql
+
+  coreapi-auth:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: com/coreapi-auth
+    restart: always
+    container_name: coreapi-auth
+    networks:
+      - db-network
+    depends_on:
+      - postgresql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/coreapi_auth
+      - SPRING_DATASOURCE_USERNAME=coreapi_auth
+      - SPRING_DATASOURCE_PASSWORD=coreapi_auth
+    ports:
+      - "8080:8080"
+
+volumes:
+  my-db:
+    driver: local
+
+networks:
+  db-network:
+    driver: bridge
