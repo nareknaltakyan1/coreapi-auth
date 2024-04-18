@@ -1,13 +1,15 @@
-package com.nnaltakyan.api.coreapiauth;
+package com.nnaltakyan.core.auth;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CoreapiAuthApplicationTests {
+class AuthApplicationTests
+{
 
 	@Test
-	void contextLoads() {
+	void contextLoads()
+	{
 	}
 
 }
