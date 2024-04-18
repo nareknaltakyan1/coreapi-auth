@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: coreapi-auth
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_DB:coreapi_auth}
+    driver-class-name: org.postgresql.Driver
+    username: coreapi_auth
+    password: coreapi_auth
+  jpa:
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: create-drop
+    open-in-view: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
