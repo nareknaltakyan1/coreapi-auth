@@ -22,7 +22,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService
 {
-	public static final String SECRET = "TnLwz5rFyTizk1TDgrd3SWmGLM6oqjr0";
+	public static final String SECRET = "nnaltakyancoreapiauthnnaltakyancoreapiauthnnaltakyancoreapiauth";
 
 	private final SystemDateTimeService systemDateTimeService;
 
@@ -41,7 +41,7 @@ public class JwtService
 	public boolean isTokenValid(final String jwt, final UserDetails userDetails)
 	{
 		final String username = extractUsername(jwt);
-		return (username.equals(userDetails.getUsername()) && isTokenExpired(jwt));
+		return (username.equals(userDetails.getUsername()) && !isTokenExpired(jwt));
 	}
 
 	public String extractUsername(final String jwt)
