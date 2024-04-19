@@ -1,6 +1,6 @@
-package com.nnaltakyan.core.auth.domain.service.jwt;
+package com.nnaltakyan.core.auth.domain.jwt.service;
 
-import com.nnaltakyan.core.auth.domain.service.system.SystemDateTimeService;
+import com.nnaltakyan.core.auth.domain.system.service.SystemDateTimeService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

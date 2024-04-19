@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig
+public class SecurityFilterChainConfig
 {
 
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;

@@ -1,6 +1,6 @@
-package com.nnaltakyan.core.auth.domain.service.user;
+package com.nnaltakyan.core.auth.domain.user.service;
 
-import com.nnaltakyan.core.auth.domain.model.user.User;
+import com.nnaltakyan.core.auth.domain.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

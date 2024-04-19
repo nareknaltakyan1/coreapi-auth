@@ -1,6 +1,6 @@
 package com.nnaltakyan.core.auth.rest.authentication.endpoint;
 
-import com.nnaltakyan.core.auth.domain.service.auth.AuthenticationService;
+import com.nnaltakyan.core.auth.domain.auth.service.AuthenticationService;
 import com.nnaltakyan.core.auth.rest.authentication.api.AuthApi;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticateRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticationResponse;

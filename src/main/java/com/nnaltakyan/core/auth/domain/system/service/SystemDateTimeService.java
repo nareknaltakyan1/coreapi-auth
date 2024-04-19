@@ -1,4 +1,4 @@
-package com.nnaltakyan.core.auth.domain.service.system;
+package com.nnaltakyan.core.auth.domain.system.service;
 
 import org.springframework.stereotype.Service;
 

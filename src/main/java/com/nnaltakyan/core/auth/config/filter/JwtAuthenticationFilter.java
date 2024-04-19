@@ -1,6 +1,6 @@
 package com.nnaltakyan.core.auth.config.filter;
 
-import com.nnaltakyan.core.auth.domain.service.jwt.JwtService;
+import com.nnaltakyan.core.auth.domain.jwt.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,9 +1,9 @@
-package com.nnaltakyan.core.auth.domain.service.auth;
+package com.nnaltakyan.core.auth.domain.auth.service;
 
-import com.nnaltakyan.core.auth.domain.model.user.Role;
-import com.nnaltakyan.core.auth.domain.model.user.User;
-import com.nnaltakyan.core.auth.domain.service.jwt.JwtService;
-import com.nnaltakyan.core.auth.domain.service.user.UserRepository;
+import com.nnaltakyan.core.auth.domain.user.model.Role;
+import com.nnaltakyan.core.auth.domain.user.model.User;
+import com.nnaltakyan.core.auth.domain.jwt.service.JwtService;
+import com.nnaltakyan.core.auth.domain.user.service.UserRepository;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticateRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticationResponse;
 import com.nnaltakyan.core.auth.rest.authentication.dto.RegisterRequest;

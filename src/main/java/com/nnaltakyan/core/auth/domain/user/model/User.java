@@ -1,4 +1,4 @@
-package com.nnaltakyan.core.auth.domain.model.user;
+package com.nnaltakyan.core.auth.domain.user.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
