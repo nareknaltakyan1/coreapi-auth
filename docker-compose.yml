@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+
   postgresql:
     image: postgres:12-alpine
     networks:
@@ -9,10 +10,9 @@ services:
     environment:
       - POSTGRES_PASSWORD=S0m3h@rdPass!
       - POSTGRES_USER=postgres
-#      - POSTGRES_DB=coreapi_auth
     volumes:
       - my-db:/var/lib/postgresql
-      - ./.docker/setup-postgres.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/setup.sql
 
   coreapi-auth:
     build:
