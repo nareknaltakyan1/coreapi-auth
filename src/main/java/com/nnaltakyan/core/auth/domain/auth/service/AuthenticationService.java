@@ -26,8 +26,14 @@ public class AuthenticationService
 
 	public AuthenticationResponse register(final RegisterRequest registerRequest)
 	{
-		var user = User.builder().firstName(registerRequest.getFirstName()).lastName(registerRequest.getLastName()).email(registerRequest.getEmail())
-			.password(passwordEncoder.encode(registerRequest.getPassword())).role(Role.USER).build();
+		var user = User.builder()
+				.firstName(registerRequest.getFirstName())
+				.lastName(registerRequest.getLastName())
+				.email(registerRequest.getEmail())
+				.password(passwordEncoder.encode(registerRequest.getPassword())).role(Role.USER)
+				.created(registerRequest.getCreated())
+				.updated(registerRequest.getUpdated())
+				.deleted(registerRequest.getDeleted()).build();
 		userRepository.save(user);
 		var jwt = jwtService.generateToken(user);
 		return AuthenticationResponse.builder().token(jwt).build();
