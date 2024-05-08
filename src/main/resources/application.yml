@@ -2,7 +2,7 @@ spring:
   application:
     name: coreapi-auth
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_DB:coreapi_auth}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_DB:coreapi_auth}
     driver-class-name: org.postgresql.Driver
     username: coreapi_auth
     password: coreapi_auth
