@@ -17,4 +17,6 @@ public interface AuthApi
 
 	@PostMapping("/authenticate")
 	ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticateRequest authenticateRequest);
+	// add verify flow
+	// we need to throw both kafka and spring events
 }

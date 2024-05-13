@@ -41,7 +41,7 @@
 //    }
 //
 //    public void saveOtp(User user){
-//        // check
+//        // user_id | verification_code | created_time | verified flag
 //        Verification verification = Verification.builder()
 //                .email(user.getEmail())
 //                .verified(false)
