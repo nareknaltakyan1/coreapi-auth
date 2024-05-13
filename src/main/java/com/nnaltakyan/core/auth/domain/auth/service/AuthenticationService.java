@@ -30,6 +30,7 @@ public class AuthenticationService
 			.password(passwordEncoder.encode(registerRequest.getPassword())).role(Role.USER).build();
 		userRepository.save(user);
 		var jwt = jwtService.generateToken(user);
+		// call verification service
 		return AuthenticationResponse.builder().token(jwt).build();
 	}
 
