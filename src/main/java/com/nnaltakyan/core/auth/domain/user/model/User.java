@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,7 +18,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
+@Table(name = "_user", indexes = {
+		@Index(name = "idx_user_email", columnList = "email"),
+		@Index(name = "idx_user_created", columnList = "created") },
+		uniqueConstraints = {
+		@UniqueConstraint(name = "nn_email_unique", columnNames = "email")
+		}
+)
 public class User implements UserDetails
 {
 
@@ -28,6 +35,9 @@ public class User implements UserDetails
 	private String lastName;
 	private String email;
 	private String password;
+	private Timestamp created;
+	private Timestamp updated;
+	private Timestamp deleted;
 
 	@Enumerated(EnumType.STRING)
 	private Role role;

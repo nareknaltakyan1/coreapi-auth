@@ -11,7 +11,7 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: create-drop
+      ddl-auto: none
     open-in-view: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
