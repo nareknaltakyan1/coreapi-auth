@@ -22,13 +22,6 @@ public class AuthApplication
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
 
-	public void sendMessage(String msg) {
-		kafkaTemplate.send("tutorialspoint", msg);
-	}
-	@KafkaListener(topics = "tutorialspoint", groupId = "group-id")
-	public void listen(String message) {
-		System.out.println("Received Messasge in group - group-id: " + message);
-	}
 	public static void main(String[] args)
 	{
 		SpringApplication.run(AuthApplication.class, args);

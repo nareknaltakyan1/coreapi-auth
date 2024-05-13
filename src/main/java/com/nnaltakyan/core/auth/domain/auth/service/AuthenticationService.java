@@ -4,6 +4,7 @@ import com.nnaltakyan.core.auth.domain.user.model.Role;
 import com.nnaltakyan.core.auth.domain.user.model.User;
 import com.nnaltakyan.core.auth.domain.jwt.service.JwtService;
 import com.nnaltakyan.core.auth.domain.user.service.UserRepository;
+import com.nnaltakyan.core.auth.domain.verification.service.VerificationService;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticateRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticationResponse;
 import com.nnaltakyan.core.auth.rest.authentication.dto.RegisterRequest;
@@ -23,6 +24,7 @@ public class AuthenticationService
 	private final PasswordEncoder passwordEncoder;
 	private final JwtService jwtService;
 	private final AuthenticationManager authenticationManager;
+	private final VerificationService verificationService;
 
 	public AuthenticationResponse register(final RegisterRequest registerRequest)
 	{
@@ -36,7 +38,7 @@ public class AuthenticationService
 				.build();
 		userRepository.save(user);
 		var jwt = jwtService.generateToken(user);
-		// call verification service
+		verificationService.createOTPAndSaveInDB(user);
 		return AuthenticationResponse.builder().token(jwt).build();
 	}
 

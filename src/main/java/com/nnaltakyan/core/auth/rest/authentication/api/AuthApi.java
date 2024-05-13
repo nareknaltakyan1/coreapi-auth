@@ -3,6 +3,8 @@ package com.nnaltakyan.core.auth.rest.authentication.api;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticateRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticationResponse;
 import com.nnaltakyan.core.auth.rest.authentication.dto.RegisterRequest;
+import com.nnaltakyan.core.auth.rest.authentication.dto.VerificationRequest;
+import com.nnaltakyan.core.auth.rest.authentication.dto.VerificationResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,8 @@ public interface AuthApi
 
 	@PostMapping("/authenticate")
 	ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticateRequest authenticateRequest);
-	// add verify flow
+
 	// we need to throw both kafka and spring events
+	@PostMapping("/verify")
+	ResponseEntity<VerificationResponse> verify(@RequestBody VerificationRequest verificationRequest) throws Exception;
 }
