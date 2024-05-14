@@ -33,7 +33,7 @@ public class AuthController implements AuthApi
 	}
 
 	@Override
-	public ResponseEntity<VerificationResponse> verify(VerificationRequest verificationRequest) throws Exception {
+	public ResponseEntity<VerificationResponse> verify(final VerificationRequest verificationRequest) throws Exception {
 		return ResponseEntity.ok(verificationService.verify(verificationRequest));
 	}
 }

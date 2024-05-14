@@ -2,6 +2,8 @@ package com.nnaltakyan.core.auth.domain.verification.service;
 
 import com.nnaltakyan.core.auth.domain.user.model.User;
 import com.nnaltakyan.core.auth.domain.user.service.UserRepository;
+import com.nnaltakyan.core.auth.domain.verification.events.EventPublisher;
+import com.nnaltakyan.core.auth.domain.verification.events.kafka.SendEmailKafkaProducer;
 import com.nnaltakyan.core.auth.domain.verification.model.Verification;
 import com.nnaltakyan.core.auth.domain.verification.repository.VerificationRepository;
 import com.nnaltakyan.core.auth.rest.authentication.dto.VerificationRequest;
@@ -21,6 +23,8 @@ public class VerificationService {
 
     private final VerificationRepository verificationRepository;
     private final UserRepository userRepository;
+    private final EventPublisher eventPublisher;
+    private SendEmailKafkaProducer kafkaProducer;
     private static final String DEFAULT_CHARSET = "0123456789";
     private static final int DEFAULT_LENGTH = 6;
 
@@ -29,6 +33,8 @@ public class VerificationService {
         this.saveOTP(user.getId(), otp);
         System.out.println(otp);
         // add event flow
+        eventPublisher.publishEvent("Sending verification email to user:" + user.getFirstName());
+        kafkaProducer.sendMessage("verification", "Sending verification email to user:" );
     }
 
     public Long generateOTP() {
@@ -54,9 +60,10 @@ public class VerificationService {
 
     public VerificationResponse verify(VerificationRequest request) throws Exception {
         // todo do we need to throw an exception
-        log.info("Verifying provided otp.");
+        log.info("Verifying the user with email: {}", request.getEmail());
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(()->new Exception("User not found!"));
+                .orElse(null);
+        // check for not null
         Verification verification = verificationRepository.findByUserid(user.getId())
                .orElseThrow(()->new Exception("Otp not found"));
         if (Objects.equals(verification.getOtp(), Long.valueOf(request.getOtp()))){
@@ -64,7 +71,7 @@ public class VerificationService {
             log.info("OTP match!");
             verificationRepository.save(
                     new Verification(
-                            user.getId(),
+                            verification.getId(),
                             verification.getUserid(),
                             verification.getOtp(),
                             verification.getCreated(),
