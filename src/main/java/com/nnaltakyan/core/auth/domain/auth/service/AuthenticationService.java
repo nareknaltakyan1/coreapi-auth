@@ -4,10 +4,12 @@ import com.nnaltakyan.core.auth.domain.user.model.Role;
 import com.nnaltakyan.core.auth.domain.user.model.User;
 import com.nnaltakyan.core.auth.domain.jwt.service.JwtService;
 import com.nnaltakyan.core.auth.domain.user.service.UserRepository;
+import com.nnaltakyan.core.auth.domain.verification.events.EventPublisher;
 import com.nnaltakyan.core.auth.domain.verification.service.VerificationService;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticateRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticationResponse;
 import com.nnaltakyan.core.auth.rest.authentication.dto.RegisterRequest;
+import com.nnaltakyan.core.auth.rest.authentication.dto.RegisterResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,8 +27,9 @@ public class AuthenticationService
 	private final JwtService jwtService;
 	private final AuthenticationManager authenticationManager;
 	private final VerificationService verificationService;
+	private final EventPublisher eventPublisher;
 
-	public AuthenticationResponse register(final RegisterRequest registerRequest)
+	public RegisterResponse register(final RegisterRequest registerRequest)
 	{
 		var user = User.builder()
 				.firstName(registerRequest.getFirstName())
@@ -37,9 +40,12 @@ public class AuthenticationService
 				.updated(registerRequest.getUpdated())
 				.build();
 		userRepository.save(user);
-		var jwt = jwtService.generateToken(user);
 		verificationService.createOTPAndSaveInDB(user);
-		return AuthenticationResponse.builder().token(jwt).build();
+		eventPublisher.publishEvent(String.valueOf(user.getId()));
+		return RegisterResponse.builder()
+				.userId(user.getId())
+				.status(user.getStatus())
+				.email(user.getEmail()).build();
 	}
 
 	public AuthenticationResponse authenticate(final AuthenticateRequest authenticateRequest)

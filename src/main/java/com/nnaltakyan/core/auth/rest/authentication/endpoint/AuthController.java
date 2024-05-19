@@ -6,6 +6,7 @@ import com.nnaltakyan.core.auth.rest.authentication.api.AuthApi;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticateRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticationResponse;
 import com.nnaltakyan.core.auth.rest.authentication.dto.RegisterRequest;
+import com.nnaltakyan.core.auth.rest.authentication.dto.RegisterResponse;
 import com.nnaltakyan.core.auth.rest.authentication.dto.VerificationRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.VerificationResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class AuthController implements AuthApi
 	private final VerificationService verificationService;
 
 	@Override
-	public ResponseEntity<AuthenticationResponse> register(final RegisterRequest registerRequest)
+	public ResponseEntity<RegisterResponse> register(final RegisterRequest registerRequest)
 	{
 		return ResponseEntity.ok(authenticationService.register(registerRequest));
 	}

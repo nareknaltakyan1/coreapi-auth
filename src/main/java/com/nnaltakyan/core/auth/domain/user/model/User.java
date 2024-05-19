@@ -38,6 +38,7 @@ public class User implements UserDetails
 	private Timestamp created;
 	private Timestamp updated;
 	private Timestamp deleted;
+	private String status;
 
 	@Enumerated(EnumType.STRING)
 	private Role role;
