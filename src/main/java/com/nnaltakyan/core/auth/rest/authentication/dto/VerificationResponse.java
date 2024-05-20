@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VerificationResponse {
     Long userId;
-    String otp;
+    String email;
     Boolean verified;
 }

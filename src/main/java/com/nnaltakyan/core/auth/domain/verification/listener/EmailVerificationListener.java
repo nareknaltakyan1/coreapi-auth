@@ -7,6 +7,7 @@ import com.nnaltakyan.core.auth.domain.verification.events.kafka.SendVerificatio
 import com.nnaltakyan.core.auth.domain.verification.events.kafka.model.VerificationEmailSendingEvent;
 import com.nnaltakyan.core.auth.domain.verification.model.Verification;
 import com.nnaltakyan.core.auth.domain.verification.repository.VerificationRepository;
+import com.nnaltakyan.core.auth.rest.enums.EmailType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -33,6 +34,7 @@ public class EmailVerificationListener implements ApplicationListener<SendVerifi
                     VerificationEmailSendingEvent.builder()
                             .userId(user.getId())
                             .email(user.getEmail())
+                            .emailType(EmailType.VERIFICATION)
                             .otp(verification.getOtp())
                             .build();
             kafkaProducer.sendMessage(TOPIC, verificationEmailSendingEvent);

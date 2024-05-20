@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VerificationRequest {
-    String otp;
+    Long otp;
     String email;
 }

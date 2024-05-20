@@ -1,5 +1,6 @@
 package com.nnaltakyan.core.auth.domain.verification.events.kafka.model;
 
+import com.nnaltakyan.core.auth.rest.enums.EmailType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -7,7 +8,7 @@ import lombok.Data;
 @Builder
 public class VerificationEmailSendingEvent {
     String email;
-    String emailType;
+    EmailType emailType;
     Long otp;
     Long userId;
 }

@@ -44,7 +44,7 @@ public class AuthenticationService
 		eventPublisher.publishEvent(String.valueOf(user.getId()));
 		return RegisterResponse.builder()
 				.userId(user.getId())
-				.status(user.getStatus())
+				.status(user.getStatus().getStatus())
 				.email(user.getEmail()).build();
 	}
 

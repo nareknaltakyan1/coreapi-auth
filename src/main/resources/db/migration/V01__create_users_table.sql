@@ -8,7 +8,7 @@ CREATE TABLE "_user" (
     created TIMESTAMP NOT NULL,
     updated TIMESTAMP NOT NULL,
     deleted TIMESTAMP,
-    status VARCHAR(255) DEFAULT "CREATED",
+    status VARCHAR(255) DEFAULT 'CREATED',
     PRIMARY KEY(id),
     CONSTRAINT uq_email UNIQUE (email)
 );

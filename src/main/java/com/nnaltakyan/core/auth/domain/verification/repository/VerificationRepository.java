@@ -10,6 +10,5 @@ import java.util.Optional;
 @Repository
 public interface VerificationRepository extends JpaRepository<Verification, Long> {
     Optional<Verification> findByUserid(Long userid);
-    @Query("SELECT e FROM _verification e WHERE e.otp = :otp ORDER BY e.id DESC")
-    Optional<Verification> findLastRecordByOtp(String otp);
+    Optional<Verification> findLastRecordByOtp(Long otp);
 }

@@ -1,11 +1,15 @@
 package com.nnaltakyan.core.auth.domain.verification.service;
 
+import com.nnaltakyan.core.auth.domain.user.enums.UserStatus;
+import com.nnaltakyan.core.auth.domain.user.exceptions.UserNotFoundException;
 import com.nnaltakyan.core.auth.domain.user.model.User;
 import com.nnaltakyan.core.auth.domain.user.service.UserRepository;
+import com.nnaltakyan.core.auth.domain.verification.exceptions.VerificationException;
 import com.nnaltakyan.core.auth.domain.verification.model.Verification;
 import com.nnaltakyan.core.auth.domain.verification.repository.VerificationRepository;
 import com.nnaltakyan.core.auth.rest.authentication.dto.VerificationRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.VerificationResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,8 @@ public class VerificationService {
 
     private final VerificationRepository verificationRepository;
     private final UserRepository userRepository;
+    private final static String VERIFICATION_NOT_FOUND = "Verification record not found.";
+    private final static String USER_NOT_FOUND = "User record not found.";
     public void createOTPAndSaveInDB(User user){
         final Long otp = this.generateOTP();
         this.saveOTP(user.getId(), otp);
@@ -33,6 +39,7 @@ public class VerificationService {
         return otp;
     }
 
+    @Transactional
     public void saveOTP(Long userId, Long otp){
         long currentTimeMillis = System.currentTimeMillis();
         final Timestamp currentTimestamp = new Timestamp(currentTimeMillis);
@@ -45,22 +52,35 @@ public class VerificationService {
         log.info("Otp for user with id {} saved in the DB.", userId);
     }
 
-    public VerificationResponse verify(VerificationRequest request) throws Exception {
+    @Transactional
+    public VerificationResponse verify(VerificationRequest request) throws VerificationException {
         log.info("Verifying the user with email: {}", request.getEmail());
-        Verification verification = verificationRepository.findLastRecordByOtp(request.getOtp())
-               .orElseThrow(()->new Exception("Otp not found"));
-        // todo do we need to throw an exception
-        User user = userRepository.findById(verification.getId()).orElseThrow(()->new RuntimeException("User not found!"));
-        if (Objects.equals(verification.getOtp(), Long.valueOf(request.getOtp()))){
-            verification.setVerified(true);
-            log.info("OTP match!");
-            verificationRepository.save(verification);
-            user.setStatus("VERIFIED");
-            userRepository.save(user);
-        }
-        return VerificationResponse.builder()
-                .userId(verification.getUserid())
-                .verified(verification.getVerified())
+        VerificationResponse verificationResponse = VerificationResponse.builder()
+                .verified(false)
+                .email(request.getEmail())
                 .build();
+        try {
+            Verification verification = verificationRepository.findLastRecordByOtp(request.getOtp())
+                    .orElseThrow(() -> new VerificationException(VERIFICATION_NOT_FOUND));
+            User user = userRepository.findById(verification.getId()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+            if (Objects.equals(verification.getOtp(), request.getOtp())) {
+                log.info("OTP match!");
+                verification.setVerified(true);
+                verificationRepository.save(verification);
+                user.setStatus(UserStatus.VERIFIED);
+                userRepository.save(user);
+                verificationResponse.setVerified(true);
+                verificationResponse.setUserId(user.getId());
+            }
+            return verificationResponse;
+        }
+        catch (VerificationException e){
+            log.info("Verification failed with message {}.", e.getMessage());
+            return verificationResponse;
+        }
+        catch (UserNotFoundException e){
+            log.info("Verification failed with message {}.", e.getMessage());
+            return verificationResponse;
+        }
     }
 }
