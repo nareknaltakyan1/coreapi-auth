@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_verification")
+@Table(name = "verification")
 public class Verification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

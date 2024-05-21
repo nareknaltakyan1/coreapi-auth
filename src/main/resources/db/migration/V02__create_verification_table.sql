@@ -1,4 +1,4 @@
-CREATE TABLE "_verification" (
+CREATE TABLE "verification" (
     id BIGSERIAL NOT NULL,
     userid BIGINT NOT NULL,
     otp BIGINT,
@@ -8,5 +8,5 @@ CREATE TABLE "_verification" (
     FOREIGN KEY (userid) REFERENCES _user(id)
 );
 
-CREATE INDEX idx_verification_user_id ON "_verification" (userid);
-CREATE INDEX idx_verification_created ON "_verification" (created);
+CREATE INDEX idx_verification_user_id ON "verification" (userid);
+CREATE INDEX idx_verification_created ON "verification" (created);
