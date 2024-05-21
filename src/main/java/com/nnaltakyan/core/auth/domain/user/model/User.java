@@ -18,13 +18,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user", indexes = {
-		@Index(name = "idx_user_email", columnList = "email"),
-		@Index(name = "idx_user_created", columnList = "created") },
-		uniqueConstraints = {
-		@UniqueConstraint(name = "nn_email_unique", columnNames = "email")
-		}
-)
+@Table(name = "_user", indexes = { @Index(name = "idx_user_email", columnList = "email"),
+	@Index(name = "idx_user_created", columnList = "created") }, uniqueConstraints = {
+		@UniqueConstraint(name = "nn_email_unique", columnNames = "email") })
 public class User implements UserDetails
 {
 
