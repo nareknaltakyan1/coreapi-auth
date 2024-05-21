@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface VerificationRepository extends JpaRepository<Verification, Long> {
     Optional<Verification> findByUserid(Long userid);
-    Optional<Verification> findLastRecordByOtp(Long otp);
+    Optional<Verification> findLastRecordByEmail(String email);
 }

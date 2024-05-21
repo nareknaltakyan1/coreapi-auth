@@ -22,7 +22,7 @@ public class Verification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userid;
-    private Long otp;
+    private Long verificationCode;
     private Timestamp created;
     private Boolean verified;
 }

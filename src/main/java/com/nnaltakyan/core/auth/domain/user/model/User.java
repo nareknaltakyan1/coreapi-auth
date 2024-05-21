@@ -39,6 +39,7 @@ public class User implements UserDetails
 	private Timestamp created;
 	private Timestamp updated;
 	private Timestamp deleted;
+	@Enumerated(EnumType.STRING)
 	private UserStatus status;
 
 	@Enumerated(EnumType.STRING)

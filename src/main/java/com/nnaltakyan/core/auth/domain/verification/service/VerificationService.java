@@ -45,7 +45,7 @@ public class VerificationService {
         final Timestamp currentTimestamp = new Timestamp(currentTimeMillis);
         final Verification verification = Verification.builder()
                 .userid(userId)
-                .otp(otp)
+                .verificationCode(otp)
                 .created(currentTimestamp)
                 .build();
         verificationRepository.save(verification);
@@ -60,10 +60,10 @@ public class VerificationService {
                 .email(request.getEmail())
                 .build();
         try {
-            Verification verification = verificationRepository.findLastRecordByOtp(request.getOtp())
+            Verification verification = verificationRepository.findLastRecordByEmail(request.getEmail())
                     .orElseThrow(() -> new VerificationException(VERIFICATION_NOT_FOUND));
             User user = userRepository.findById(verification.getId()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
-            if (Objects.equals(verification.getOtp(), request.getOtp())) {
+            if (Objects.equals(verification.getVerificationCode(), request.getVerificationCode())) {
                 log.info("OTP match!");
                 verification.setVerified(true);
                 verificationRepository.save(verification);
