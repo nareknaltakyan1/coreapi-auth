@@ -16,7 +16,10 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
+
+import static java.time.LocalDateTime.now;
 
 @Service
 @Slf4j
@@ -41,12 +44,10 @@ public class VerificationService {
 
     @Transactional
     public void saveOTP(Long userId, Long otp){
-        long currentTimeMillis = System.currentTimeMillis();
-        final Timestamp currentTimestamp = new Timestamp(currentTimeMillis);
         final Verification verification = Verification.builder()
                 .userid(userId)
                 .verificationCode(otp)
-                .created(currentTimestamp)
+                .created(Timestamp.valueOf(now()))
                 .build();
         verificationRepository.save(verification);
         log.info("Otp for user with id {} saved in the DB.", userId);
