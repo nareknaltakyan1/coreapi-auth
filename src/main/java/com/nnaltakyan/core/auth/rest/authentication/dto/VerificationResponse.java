@@ -10,7 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VerificationResponse {
-    Long userId;
-    String email;
     Boolean verified;
 }
