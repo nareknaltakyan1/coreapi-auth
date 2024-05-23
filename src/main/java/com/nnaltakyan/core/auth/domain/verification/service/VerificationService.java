@@ -47,14 +47,14 @@ public class VerificationService {
 
     @Transactional
     public VerificationResponse verify(VerificationRequest request) throws VerificationException {
-        log.info("Verifying the user with email: {}", request.getEmail());
-        VerificationResponse verificationResponse = VerificationResponse.builder()
+            log.info("Verifying the user with email: {}", request.getEmail());
+            VerificationResponse verificationResponse = VerificationResponse.builder()
                 .verified(false)
                 .build();
-            Verification verification = verificationRepository.findLastRecordByEmail(request.getEmail())
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        Verification verification = verificationRepository.findByUserid(user.getId())
                     .orElseThrow(() -> new VerificationException(VERIFICATION_NOT_FOUND));
-            User user = userRepository.findById(verification.getId()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
-            if (Objects.equals(verification.getVerificationCode(), request.getVerificationCode())) {
+        if (Objects.equals(verification.getVerificationCode(), request.getVerificationCode())) {
                 log.info("Verification Code match!");
                 verification.setVerified(true);
                 verificationRepository.save(verification);
