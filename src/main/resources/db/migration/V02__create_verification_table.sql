@@ -1,7 +1,7 @@
 CREATE TABLE "verification" (
     id BIGSERIAL NOT NULL,
     userid BIGINT NOT NULL,
-    otp BIGINT,
+    verificationCode BIGINT,
     created TIMESTAMP NOT NULL,
     verified BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id),

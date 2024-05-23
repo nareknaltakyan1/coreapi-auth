@@ -41,7 +41,7 @@ public class EmailVerificationListener implements ApplicationListener<SendVerifi
                             .userId(user.getId())
                             .email(user.getEmail())
                             .emailType(EmailType.VERIFICATION)
-                            .otp(verification.getVerificationCode())
+                            .verificationCode(verification.getVerificationCode())
                             .build();
             kafkaProducer.sendMessage(TOPIC, verificationEmailSendingEvent);
         }

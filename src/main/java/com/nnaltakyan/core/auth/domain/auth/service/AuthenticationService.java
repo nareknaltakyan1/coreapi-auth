@@ -39,7 +39,7 @@ public class AuthenticationService
 			.password(passwordEncoder.encode(registerRequest.getPassword())).role(Role.USER).created(registerRequest.getCreated())
 			.updated(registerRequest.getUpdated()).build();
 		userRepository.save(user);
-		verificationService.createOTPAndSaveInDB(user);
+		verificationService.createVerificationCodeAndSaveInDB(user);
 		if (Objects.nonNull(user.getId())){
 			SendVerificationEmailEvent sendVerificationEmailEvent = new SendVerificationEmailEvent(this, user.getId());
 			eventPublisher.publishEvent(sendVerificationEmailEvent);

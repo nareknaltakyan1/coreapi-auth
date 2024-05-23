@@ -9,6 +9,6 @@ import lombok.Data;
 public class VerificationEmailSendingEvent {
     String email;
     EmailType emailType;
-    Long otp;
+    Long verificationCode;
     Long userId;
 }

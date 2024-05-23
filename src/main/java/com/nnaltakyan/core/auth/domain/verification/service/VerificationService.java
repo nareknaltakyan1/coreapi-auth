@@ -29,20 +29,20 @@ public class VerificationService {
     private final UserRepository userRepository;
     private final static String VERIFICATION_NOT_FOUND = "Verification record not found.";
     private final static String USER_NOT_FOUND = "User record not found.";
-    public void createOTPAndSaveInDB(User user){
-        final Long otp = VerficationUtils.generateOTP();
-        this.saveOTP(user.getId(), otp);
+    public void createVerificationCodeAndSaveInDB(User user){
+        final Long verificationCode = VerficationUtils.generateVerificationCode();
+        this.saveVerificationCode(user.getId(), verificationCode);
     }
 
     @Transactional
-    public void saveOTP(Long userId, Long otp){
+    public void saveVerificationCode(Long userId, Long verificationCode){
         final Verification verification = Verification.builder()
                 .userid(userId)
-                .verificationCode(otp)
+                .verificationCode(verificationCode)
                 .created(Timestamp.valueOf(now()))
                 .build();
         verificationRepository.save(verification);
-        log.info("Otp for user with id {} saved in the DB.", userId);
+        log.info("Verification Code for user with id {} saved in the DB.", userId);
     }
 
     @Transactional
@@ -55,7 +55,7 @@ public class VerificationService {
                     .orElseThrow(() -> new VerificationException(VERIFICATION_NOT_FOUND));
             User user = userRepository.findById(verification.getId()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
             if (Objects.equals(verification.getVerificationCode(), request.getVerificationCode())) {
-                log.info("OTP match!");
+                log.info("Verification Code match!");
                 verification.setVerified(true);
                 verificationRepository.save(verification);
                 user.setStatus(UserStatus.VERIFIED);
