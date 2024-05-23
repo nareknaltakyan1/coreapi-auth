@@ -2,7 +2,8 @@ spring:
   application:
     name: coreapi-auth
   kafka:
-    bootstrap-servers: localhost:9092
+    host: ${KAFKA_HOST:localhost}
+    port: ${KAFKA_PORT:9092}
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_DB:coreapi_auth}
     driver-class-name: org.postgresql.Driver
