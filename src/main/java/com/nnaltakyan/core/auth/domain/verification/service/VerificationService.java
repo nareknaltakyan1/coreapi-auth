@@ -7,6 +7,7 @@ import com.nnaltakyan.core.auth.domain.user.service.UserRepository;
 import com.nnaltakyan.core.auth.domain.verification.exceptions.VerificationException;
 import com.nnaltakyan.core.auth.domain.verification.model.Verification;
 import com.nnaltakyan.core.auth.domain.verification.repository.VerificationRepository;
+import com.nnaltakyan.core.auth.domain.verification.utils.VerficationUtils;
 import com.nnaltakyan.core.auth.rest.authentication.dto.VerificationRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.VerificationResponse;
 import jakarta.transaction.Transactional;
@@ -14,9 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.security.SecureRandom;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Objects;
 
 import static java.time.LocalDateTime.now;
@@ -31,15 +30,8 @@ public class VerificationService {
     private final static String VERIFICATION_NOT_FOUND = "Verification record not found.";
     private final static String USER_NOT_FOUND = "User record not found.";
     public void createOTPAndSaveInDB(User user){
-        final Long otp = this.generateOTP();
+        final Long otp = VerficationUtils.generateOTP();
         this.saveOTP(user.getId(), otp);
-    }
-
-    public Long generateOTP() {
-        final SecureRandom random = new SecureRandom();
-        Long otp = 100000 + random.nextLong(900000);
-        log.info("Generated otp: {}", otp);
-        return otp;
     }
 
     @Transactional
