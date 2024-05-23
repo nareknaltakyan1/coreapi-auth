@@ -1,5 +1,6 @@
 package com.nnaltakyan.core.auth.domain.auth.service;
 
+import com.nnaltakyan.core.auth.domain.user.enums.UserStatus;
 import com.nnaltakyan.core.auth.domain.user.model.Role;
 import com.nnaltakyan.core.auth.domain.user.model.User;
 import com.nnaltakyan.core.auth.domain.jwt.service.JwtService;
@@ -16,6 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -36,11 +39,20 @@ public class AuthenticationService
 			.updated(registerRequest.getUpdated()).build();
 		userRepository.save(user);
 		verificationService.createOTPAndSaveInDB(user);
-		eventPublisher.publishEvent(String.valueOf(user.getId()));
+		if (Objects.nonNull(user.getId())){
+			eventPublisher.publishEvent(String.valueOf(user.getId()));
+			if (Objects.nonNull(user.getStatus())){
+				return RegisterResponse.builder()
+						.userId(user.getId())
+						.status(user.getStatus().getStatus())
+						.email(user.getEmail()).build();
+			}
+		}
 		return RegisterResponse.builder()
-				.userId(user.getId())
-				.status(user.getStatus().getStatus())
-				.email(user.getEmail()).build();
+			.userId(-1L)
+			.status(null)
+			.email(user.getEmail()).build();
+
 	}
 
 	public AuthenticationResponse authenticate(final AuthenticateRequest authenticateRequest)
