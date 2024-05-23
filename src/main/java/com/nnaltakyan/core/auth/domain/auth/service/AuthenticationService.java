@@ -31,14 +31,9 @@ public class AuthenticationService
 
 	public RegisterResponse register(final RegisterRequest registerRequest)
 	{
-		var user = User.builder()
-				.firstName(registerRequest.getFirstName())
-				.lastName(registerRequest.getLastName())
-				.email(registerRequest.getEmail())
-				.password(passwordEncoder.encode(registerRequest.getPassword())).role(Role.USER)
-				.created(registerRequest.getCreated())
-				.updated(registerRequest.getUpdated())
-				.build();
+		var user = User.builder().firstName(registerRequest.getFirstName()).lastName(registerRequest.getLastName()).email(registerRequest.getEmail())
+			.password(passwordEncoder.encode(registerRequest.getPassword())).role(Role.USER).created(registerRequest.getCreated())
+			.updated(registerRequest.getUpdated()).build();
 		userRepository.save(user);
 		verificationService.createOTPAndSaveInDB(user);
 		eventPublisher.publishEvent(String.valueOf(user.getId()));
