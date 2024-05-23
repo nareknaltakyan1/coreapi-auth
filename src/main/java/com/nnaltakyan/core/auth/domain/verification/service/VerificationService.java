@@ -57,9 +57,7 @@ public class VerificationService {
         log.info("Verifying the user with email: {}", request.getEmail());
         VerificationResponse verificationResponse = VerificationResponse.builder()
                 .verified(false)
-                .email(request.getEmail())
                 .build();
-        try {
             Verification verification = verificationRepository.findLastRecordByEmail(request.getEmail())
                     .orElseThrow(() -> new VerificationException(VERIFICATION_NOT_FOUND));
             User user = userRepository.findById(verification.getId()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
@@ -70,17 +68,7 @@ public class VerificationService {
                 user.setStatus(UserStatus.VERIFIED);
                 userRepository.save(user);
                 verificationResponse.setVerified(true);
-                verificationResponse.setUserId(user.getId());
             }
             return verificationResponse;
-        }
-        catch (VerificationException e){
-            log.info("Verification failed with message {}.", e.getMessage());
-            return verificationResponse;
-        }
-        catch (UserNotFoundException e){
-            log.info("Verification failed with message {}.", e.getMessage());
-            return verificationResponse;
-        }
     }
 }
