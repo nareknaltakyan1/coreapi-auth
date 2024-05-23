@@ -8,9 +8,8 @@ import org.springframework.context.ApplicationEvent;
 public class SendVerificationEmailEvent extends ApplicationEvent {
 
     private final Long userId;
-    public SendVerificationEmailEvent(Object source, String userId) {
+    public SendVerificationEmailEvent(AuthenticationService source, Long userId) {
         super(source);
-        this.userId = Long.valueOf(userId);
+        this.userId = userId;
     }
-
 }

@@ -10,9 +10,8 @@ import org.springframework.stereotype.Component;
 public class EventPublisher {
     private final ApplicationEventPublisher eventPublisher;
 
-    public void publishEvent(String message){
-        SendVerificationEmailEvent sendVerificationEmailEvent = new SendVerificationEmailEvent(this, message);
+    public void publishEvent(SendVerificationEmailEvent emailEvent){
         log.info("Email verification event has been thrown.");
-        eventPublisher.publishEvent(sendVerificationEmailEvent);
+        eventPublisher.publishEvent(emailEvent);
     }
 }

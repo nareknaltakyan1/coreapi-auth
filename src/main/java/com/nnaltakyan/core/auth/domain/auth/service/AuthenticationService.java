@@ -6,6 +6,7 @@ import com.nnaltakyan.core.auth.domain.user.model.User;
 import com.nnaltakyan.core.auth.domain.jwt.service.JwtService;
 import com.nnaltakyan.core.auth.domain.user.service.UserRepository;
 import com.nnaltakyan.core.auth.domain.verification.events.EventPublisher;
+import com.nnaltakyan.core.auth.domain.verification.events.SendVerificationEmailEvent;
 import com.nnaltakyan.core.auth.domain.verification.service.VerificationService;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticateRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticationResponse;
@@ -40,7 +41,8 @@ public class AuthenticationService
 		userRepository.save(user);
 		verificationService.createOTPAndSaveInDB(user);
 		if (Objects.nonNull(user.getId())){
-			eventPublisher.publishEvent(String.valueOf(user.getId()));
+			SendVerificationEmailEvent sendVerificationEmailEvent = new SendVerificationEmailEvent(this, user.getId());
+			eventPublisher.publishEvent(sendVerificationEmailEvent);
 			if (Objects.nonNull(user.getStatus())){
 				return RegisterResponse.builder()
 						.userId(user.getId())
