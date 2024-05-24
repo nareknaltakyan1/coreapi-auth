@@ -1,5 +1,6 @@
 package com.nnaltakyan.core.auth.domain.user.model;
 
+import com.nnaltakyan.core.auth.domain.user.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +35,8 @@ public class User implements UserDetails
 	private Timestamp created;
 	private Timestamp updated;
 	private Timestamp deleted;
+	@Enumerated(EnumType.STRING)
+	private UserStatus status;
 
 	@Enumerated(EnumType.STRING)
 	private Role role;
