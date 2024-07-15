@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(VerificationException.class)
     public ResponseEntity<String> handleException(VerificationException ex) {
         ex.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(VERIFICATION_EXCEPTION_MESSAGE);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(VERIFICATION_EXCEPTION_MESSAGE);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
