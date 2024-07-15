@@ -19,8 +19,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @RequiredArgsConstructor
 public class AuthApplication
 {
-	private final KafkaTemplate<String, String> kafkaTemplate;
-
 	public static void main(String[] args)
 	{
 		SpringApplication.run(AuthApplication.class, args);

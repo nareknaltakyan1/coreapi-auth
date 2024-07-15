@@ -14,8 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-
 import java.util.Objects;
+import static com.nnaltakyan.api.core.common.domain.Topic.EMAIL_VERIFICATION;
 
 @Component
 @Slf4j
@@ -26,7 +26,7 @@ public class EmailVerificationListener implements ApplicationListener<SendVerifi
     private final VerificationRepository verificationRepository;
     private final SendVerificationEmailKafkaProducer kafkaProducer;
     private final static String USER_NOT_FOUND = "User record not found.";
-    private final static String TOPIC = "Email verification";
+//    private final static String TOPIC = "Email verification";
     private final static String VERIFICATION_NOT_FOUND = "Verification record not found.";
 
     @Override
@@ -43,7 +43,7 @@ public class EmailVerificationListener implements ApplicationListener<SendVerifi
                             .emailType(EmailType.VERIFICATION)
                             .verificationCode(verification.getVerificationCode())
                             .build();
-            kafkaProducer.sendMessage(TOPIC, verificationEmailSendingEvent);
+            kafkaProducer.sendMessage(EMAIL_VERIFICATION.name(), verificationEmailSendingEvent);
         }
     }
 }
