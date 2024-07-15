@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import java.util.Objects;
+
+import static com.nnaltakyan.api.core.common.domain.ErrorMessage.VERIFICATION_NOT_FOUND;
 import static com.nnaltakyan.api.core.common.domain.Topic.EMAIL_VERIFICATION;
 import static com.nnaltakyan.api.core.common.error.ErrorMessages.USER_NOT_FOUND;
 
@@ -27,7 +29,6 @@ public class EmailVerificationListener implements ApplicationListener<SendVerifi
 	private final UserRepository userRepository;
 	private final VerificationRepository verificationRepository;
 	private final SendVerificationEmailKafkaProducer kafkaProducer;
-	private final static String VERIFICATION_NOT_FOUND = "Verification record not found.";
 
 	@Override
 	public void onApplicationEvent(SendVerificationEmailEvent event)
@@ -35,12 +36,7 @@ public class EmailVerificationListener implements ApplicationListener<SendVerifi
 		log.info("A kafka event for verifying the email of the user with id {} is published", event.getUserId());
 		User user = userRepository.findById(event.getUserId()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND.getMessage()));
 		Verification verification = verificationRepository.findByUserid(event.getUserId())
-			.orElseThrow(() -> new VerificationFailedException(VERIFICATION_NOT_FOUND));
-		if (Objects.nonNull(user) && Objects.nonNull(verification))
-		{
-			VerificationEmailSendingEvent verificationEmailSendingEvent = VerificationEmailSendingEvent.builder().userId(user.getId())
-				.email(user.getEmail()).emailType(EmailType.VERIFICATION).verificationCode(verification.getVerificationCode()).build();
-			kafkaProducer.sendMessage(EMAIL_VERIFICATION.name(), verificationEmailSendingEvent);
-		}
+			.orElseThrow(() -> new VerificationFailedException(VERIFICATION_NOT_FOUND.getMessage()));
+		if (Objects.nonNull(user) && Objects.nonNull(verification));
 	}
 }

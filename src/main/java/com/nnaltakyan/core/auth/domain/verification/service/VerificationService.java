@@ -1,10 +1,10 @@
 package com.nnaltakyan.core.auth.domain.verification.service;
 
-import com.nnaltakyan.core.auth.domain.user.enums.UserStatus;
-import com.nnaltakyan.core.auth.domain.user.exceptions.UserNotFoundException;
+import com.nnaltakyan.api.core.common.domain.UserStatus;
+import com.nnaltakyan.api.core.common.exceptions.UserNotFoundException;
+import com.nnaltakyan.api.core.common.exceptions.VerificationFailedException;
 import com.nnaltakyan.core.auth.domain.user.model.User;
 import com.nnaltakyan.core.auth.domain.user.service.UserRepository;
-import com.nnaltakyan.core.auth.domain.verification.exceptions.VerificationException;
 import com.nnaltakyan.core.auth.domain.verification.model.Verification;
 import com.nnaltakyan.core.auth.domain.verification.repository.VerificationRepository;
 import com.nnaltakyan.core.auth.domain.verification.utils.VerficationUtils;
@@ -18,18 +18,17 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+import static com.nnaltakyan.api.core.common.domain.ErrorMessage.VERIFICATION_NOT_FOUND;
 import static com.nnaltakyan.api.core.common.error.ErrorMessages.USER_NOT_FOUND;
 import static java.time.LocalDateTime.now;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class VerificationService
-{
+public class VerificationService {
 
 	private final VerificationRepository verificationRepository;
 	private final UserRepository userRepository;
-	private final static String VERIFICATION_NOT_FOUND = "Verification record not found.";
 
 	public void createVerificationCodeAndSaveInDB(User user)
 	{
@@ -47,13 +46,13 @@ public class VerificationService
 	}
 
 	@Transactional
-	public VerificationResponse verify(VerificationRequest request) throws VerificationException
+	public VerificationResponse verify(VerificationRequest request) throws VerificationFailedException
 	{
 		log.info("Verifying the user with email: {}", request.getEmail());
 		VerificationResponse verificationResponse = VerificationResponse.builder().verified(false).build();
 		User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND.getMessage()));
 		Verification verification = verificationRepository.findByUserid(user.getId())
-			.orElseThrow(() -> new VerificationException(VERIFICATION_NOT_FOUND));
+			.orElseThrow(() -> new VerificationFailedException(VERIFICATION_NOT_FOUND.getMessage()));
 		if (Objects.equals(verification.getVerificationCode(), request.getVerificationCode()))
 		{
 			log.info("Verification Code match!");
