@@ -17,12 +17,13 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Entity
 @Table(name = "verification")
-public class Verification {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Long userid;
-    private Long verificationCode;
-    private Timestamp created;
-    private Boolean verified;
+public class Verification
+{
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private Long userid;
+	private Long verificationCode;
+	private Timestamp created;
+	private Boolean verified;
 }

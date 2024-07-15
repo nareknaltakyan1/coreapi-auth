@@ -7,10 +7,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SendVerificationEmailKafkaProducer {
-    private final KafkaTemplate<String, VerificationEmailSendingEvent> kafkaTemplate;
+public class SendVerificationEmailKafkaProducer
+{
+	private final KafkaTemplate<String, VerificationEmailSendingEvent> kafkaTemplate;
 
-    public void sendMessage(String topic, VerificationEmailSendingEvent message) {
-        kafkaTemplate.send(topic, message);
-    }
+	public void sendMessage(String topic, VerificationEmailSendingEvent message)
+	{
+		kafkaTemplate.send(topic, message);
+	}
 }

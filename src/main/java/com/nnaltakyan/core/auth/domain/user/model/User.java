@@ -1,6 +1,6 @@
 package com.nnaltakyan.core.auth.domain.user.model;
 
-import com.nnaltakyan.core.auth.domain.user.enums.UserStatus;
+import com.nnaltakyan.api.core.common.domain.UserStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

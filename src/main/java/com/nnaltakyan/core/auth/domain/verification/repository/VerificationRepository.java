@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface VerificationRepository extends JpaRepository<Verification, Long> {
-    Optional<Verification> findByUserid(Long userid);
+public interface VerificationRepository extends JpaRepository<Verification, Long>
+{
+	Optional<Verification> findByUserid(Long userid);
 }

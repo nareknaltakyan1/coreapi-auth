@@ -4,11 +4,14 @@ import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
 @Getter
-public class SendVerificationEmailEvent extends ApplicationEvent {
+public class SendVerificationEmailEvent extends ApplicationEvent
+{
 
-    private final Long userId;
-    public SendVerificationEmailEvent(Object source, Long userId) {
-        super(source);
-        this.userId = userId;
-    }
+	private final Long userId;
+
+	public SendVerificationEmailEvent(Object source, Long userId)
+	{
+		super(source);
+		this.userId = userId;
+	}
 }
