@@ -41,7 +41,7 @@ public class AuthenticationService
 		userRepository.save(user);
 		verificationService.createVerificationCodeAndSaveInDB(user);
 		if (Objects.nonNull(user.getId())){
-			SendVerificationEmailEvent sendVerificationEmailEvent = new SendVerificationEmailEvent(this, user.getId());
+			SendVerificationEmailEvent sendVerificationEmailEvent = new SendVerificationEmailEvent(eventPublisher, user.getId());
 			eventPublisher.publishEvent(sendVerificationEmailEvent);
 			if (Objects.nonNull(user.getStatus())){
 				return RegisterResponse.builder()
