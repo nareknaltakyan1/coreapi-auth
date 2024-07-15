@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import java.util.Objects;
 import static com.nnaltakyan.api.core.common.domain.Topic.EMAIL_VERIFICATION;
+import static com.nnaltakyan.api.core.common.error.ErrorMessages.USER_NOT_FOUND;
 
 @Component
 @Slf4j
@@ -25,14 +26,12 @@ public class EmailVerificationListener implements ApplicationListener<SendVerifi
     private final UserRepository userRepository;
     private final VerificationRepository verificationRepository;
     private final SendVerificationEmailKafkaProducer kafkaProducer;
-    private final static String USER_NOT_FOUND = "User record not found.";
-//    private final static String TOPIC = "Email verification";
     private final static String VERIFICATION_NOT_FOUND = "Verification record not found.";
 
     @Override
     public void onApplicationEvent(SendVerificationEmailEvent event) {
         log.info("A kafka event for verifying the email of the user with id {} is published", event.getUserId());
-        User user = userRepository.findById(event.getUserId()).orElseThrow(()-> new UserNotFoundException(USER_NOT_FOUND));
+        User user = userRepository.findById(event.getUserId()).orElseThrow(()-> new UserNotFoundException(USER_NOT_FOUND.getMessage()));
         Verification verification = verificationRepository.findByUserid(event.getUserId()).orElseThrow(()->
                                 new VerificationException(VERIFICATION_NOT_FOUND));
         if (Objects.nonNull(user) && Objects.nonNull(verification)){
