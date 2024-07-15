@@ -31,7 +31,13 @@ services:
       - SPRING_DATASOURCE_PASSWORD=S0m3h@rdPass!
     ports:
       - "8081:8081"
-
+  coreapi-gateway:
+    build:
+      context: .
+      dockerfile: ../coreapi-gateway/Dockerfile
+    image: com/coreapi-gateway
+    restart: always
+    container_name: coreapi-gateway
 volumes:
   my-db:
     driver: local
