@@ -31,6 +31,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=S0m3h@rdPass!
     ports:
       - "8081:8081"
+
 volumes:
   my-db:
     driver: local
