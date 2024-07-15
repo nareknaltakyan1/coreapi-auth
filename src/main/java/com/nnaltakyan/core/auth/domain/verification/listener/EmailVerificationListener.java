@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 import static com.nnaltakyan.api.core.common.domain.ErrorMessage.VERIFICATION_NOT_FOUND;
-import static com.nnaltakyan.api.core.common.domain.Topic.EMAIL_VERIFICATION;
 import static com.nnaltakyan.api.core.common.error.ErrorMessages.USER_NOT_FOUND;
 
 @Component
