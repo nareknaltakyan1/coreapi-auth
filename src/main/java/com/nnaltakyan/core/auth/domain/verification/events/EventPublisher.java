@@ -11,7 +11,7 @@ public class EventPublisher {
     private final ApplicationEventPublisher eventPublisher;
 
     public void publishEvent(SendVerificationEmailEvent emailEvent){
-        log.info("Email verification event has been thrown.");
+        log.info("Email verification event has been thrown for user: {}.", emailEvent.getUserId());
         eventPublisher.publishEvent(emailEvent);
     }
 }
