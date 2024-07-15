@@ -1,13 +1,11 @@
 package com.nnaltakyan.core.auth.domain.verification.listener;
 
-import com.nnaltakyan.api.core.common.domain.EmailType;
 import com.nnaltakyan.api.core.common.exceptions.UserNotFoundException;
 import com.nnaltakyan.api.core.common.exceptions.VerificationFailedException;
 import com.nnaltakyan.core.auth.domain.user.model.User;
 import com.nnaltakyan.core.auth.domain.user.service.UserRepository;
 import com.nnaltakyan.core.auth.domain.verification.events.SendVerificationEmailEvent;
 import com.nnaltakyan.core.auth.domain.verification.events.kafka.SendVerificationEmailKafkaProducer;
-import com.nnaltakyan.core.auth.domain.verification.events.kafka.model.VerificationEmailSendingEvent;
 import com.nnaltakyan.core.auth.domain.verification.model.Verification;
 import com.nnaltakyan.core.auth.domain.verification.repository.VerificationRepository;
 import lombok.AllArgsConstructor;
