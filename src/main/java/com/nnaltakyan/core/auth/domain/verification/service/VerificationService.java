@@ -18,14 +18,15 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-import static com.nnaltakyan.api.core.common.domain.ErrorMessage.VERIFICATION_NOT_FOUND;
-import static com.nnaltakyan.api.core.common.error.ErrorMessages.USER_NOT_FOUND;
+import static com.nnaltakyan.api.core.common.error.ErrorMessage.USER_NOT_FOUND;
+import static com.nnaltakyan.api.core.common.error.ErrorMessage.VERIFICATION_FAILED;
 import static java.time.LocalDateTime.now;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class VerificationService {
+public class VerificationService
+{
 
 	private final VerificationRepository verificationRepository;
 	private final UserRepository userRepository;
@@ -52,7 +53,7 @@ public class VerificationService {
 		VerificationResponse verificationResponse = VerificationResponse.builder().verified(false).build();
 		User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND.getMessage()));
 		Verification verification = verificationRepository.findByUserid(user.getId())
-			.orElseThrow(() -> new VerificationFailedException(VERIFICATION_NOT_FOUND.getMessage()));
+			.orElseThrow(() -> new VerificationFailedException(VERIFICATION_FAILED.getMessage()));
 		if (Objects.equals(verification.getVerificationCode(), request.getVerificationCode()))
 		{
 			log.info("Verification Code match!");

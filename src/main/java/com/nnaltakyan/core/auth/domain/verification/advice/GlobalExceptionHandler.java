@@ -1,6 +1,6 @@
 package com.nnaltakyan.core.auth.domain.verification.advice;
 
-import com.nnaltakyan.api.core.common.domain.ErrorMessage;
+import com.nnaltakyan.api.core.common.error.ErrorMessage;
 import com.nnaltakyan.api.core.common.exceptions.UserNotFoundException;
 import com.nnaltakyan.api.core.common.exceptions.VerificationFailedException;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ public class GlobalExceptionHandler
 	public ResponseEntity<String> handleException(VerificationFailedException ex)
 	{
 		ex.printStackTrace();
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorMessage.VERIFICATION_NOT_FOUND.getMessage());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorMessage.VERIFICATION_FAILED.getMessage());
 	}
 
 	@ExceptionHandler(UserNotFoundException.class)
