@@ -9,6 +9,7 @@ import java.security.SecureRandom;
 @Component
 public class VerficationUtils
 {
+	// todo refactor
 	public static Long generateVerificationCode()
 	{
 		final SecureRandom random = new SecureRandom();
