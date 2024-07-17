@@ -8,7 +8,8 @@ import lombok.Data;
 @Builder
 public class VerificationEmailSendingEvent
 {
-	String email;
+	String fromEmail;
+	String toEmail;
 	EmailType emailType;
 	Long verificationCode;
 	Long userId;
