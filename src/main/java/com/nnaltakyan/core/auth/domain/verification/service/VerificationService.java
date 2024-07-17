@@ -31,10 +31,11 @@ public class VerificationService
 	private final VerificationRepository verificationRepository;
 	private final UserRepository userRepository;
 
+	@Transactional
 	public void createVerificationCodeAndSaveInDB(User user)
 	{
 		final Long verificationCode = VerficationUtils.generateVerificationCode();
-		this.saveVerificationCode(user.getId(), verificationCode);
+		saveVerificationCode(user.getId(), verificationCode);
 	}
 
 	@Transactional

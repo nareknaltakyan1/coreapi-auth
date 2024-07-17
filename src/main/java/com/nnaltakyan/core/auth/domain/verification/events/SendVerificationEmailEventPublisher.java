@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class EventPublisher
+public class SendVerificationEmailEventPublisher
 {
 	private final ApplicationEventPublisher eventPublisher;
 
-	public void publishEvent(SendVerificationEmailEvent emailEvent)
+	public void publishEvent(final SendVerificationEmailEvent emailEvent)
 	{
 		log.info("Email verification event has been thrown for user: {}.", emailEvent.getUserId());
 		eventPublisher.publishEvent(emailEvent);

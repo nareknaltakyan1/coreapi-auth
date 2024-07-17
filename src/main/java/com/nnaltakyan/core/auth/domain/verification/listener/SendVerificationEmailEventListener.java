@@ -10,9 +10,9 @@ import com.nnaltakyan.core.auth.domain.verification.model.Verification;
 import com.nnaltakyan.core.auth.domain.verification.repository.VerificationRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import java.util.Objects;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import static com.nnaltakyan.api.core.common.error.ErrorMessage.USER_NOT_FOUND;
 import static com.nnaltakyan.api.core.common.error.ErrorMessage.VERIFICATION_FAILED;
@@ -20,21 +20,20 @@ import static com.nnaltakyan.api.core.common.error.ErrorMessage.VERIFICATION_FAI
 @Component
 @Slf4j
 @AllArgsConstructor
-public class EmailVerificationListener implements ApplicationListener<SendVerificationEmailEvent>
+public class SendVerificationEmailEventListener
 {
 
 	private final UserRepository userRepository;
 	private final VerificationRepository verificationRepository;
 	private final SendVerificationEmailKafkaProducer kafkaProducer;
 
-	@Override
-	public void onApplicationEvent(SendVerificationEmailEvent event)
+	@TransactionalEventListener
+	@Async
+	public void listener(final SendVerificationEmailEvent event)
 	{
 		log.info("A kafka event for verifying the email of the user with id {} is published", event.getUserId());
 		User user = userRepository.findById(event.getUserId()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND.getMessage()));
 		Verification verification = verificationRepository.findByUserid(event.getUserId())
 			.orElseThrow(() -> new VerificationFailedException(VERIFICATION_FAILED.getMessage()));
-		if (Objects.nonNull(user) && Objects.nonNull(verification))
-			;
 	}
 }

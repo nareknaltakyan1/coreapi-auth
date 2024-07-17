@@ -4,7 +4,7 @@ import com.nnaltakyan.core.auth.domain.user.model.Role;
 import com.nnaltakyan.core.auth.domain.user.model.User;
 import com.nnaltakyan.core.auth.domain.jwt.service.JwtService;
 import com.nnaltakyan.core.auth.domain.user.service.UserRepository;
-import com.nnaltakyan.core.auth.domain.verification.events.EventPublisher;
+import com.nnaltakyan.core.auth.domain.verification.events.SendVerificationEmailEventPublisher;
 import com.nnaltakyan.core.auth.domain.verification.events.SendVerificationEmailEvent;
 import com.nnaltakyan.core.auth.domain.verification.service.VerificationService;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticateRequest;
@@ -28,7 +28,7 @@ public class AuthenticationService
 	private final JwtService jwtService;
 	private final AuthenticationManager authenticationManager;
 	private final VerificationService verificationService;
-	private final EventPublisher eventPublisher;
+	private final SendVerificationEmailEventPublisher sendVerificationEmailEventPublisher;
 
 	public RegisterResponse register(final RegisterRequest registerRequest)
 	{
@@ -37,8 +37,7 @@ public class AuthenticationService
 			.updated(registerRequest.getUpdated()).build();
 		userRepository.save(user);
 		verificationService.createVerificationCodeAndSaveInDB(user);
-		SendVerificationEmailEvent sendVerificationEmailEvent = new SendVerificationEmailEvent(eventPublisher, user.getId());
-		eventPublisher.publishEvent(sendVerificationEmailEvent);
+		sendVerificationEmailEventPublisher.publishEvent(SendVerificationEmailEvent.builder().withUserId(user.getId()).build());
 		return RegisterResponse.builder().userId(user.getId()).status(user.getStatus().getStatus()).email(user.getEmail()).build();
 	}
 
