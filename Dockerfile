@@ -1,7 +1,7 @@
 FROM openjdk:17-jdk as builder
 WORKDIR application
 ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} application.jar
+COPY ${JAR_FILE} /
 RUN java -Djarmode=layertools -jar application.jar extract
 
 FROM openjdk:17-jdk
