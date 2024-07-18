@@ -83,13 +83,16 @@
 		</dependency>
 	</dependencies>
 
-	<distributionManagement>
+	<repositories>
 		<repository>
 			<id>github</id>
 			<name>GitHub nareknaltakyan1 Apache Maven Packages</name>
 			<url>https://maven.pkg.github.com/nareknaltakyan1/coreapi-common-lib</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
-	</distributionManagement>
+	</repositories>
 
 
 	<build>
