@@ -44,6 +44,6 @@ public class SendVerificationEmailEventListener
 	private VerificationEmailSendingEvent buildEvent(final User user, final Verification verification)
 	{
 		return VerificationEmailSendingEvent.builder().fromEmail(null).toEmail(user.getEmail()).emailType(EmailType.VERIFICATION).userId(user.getId())
-			.verificationCode(verification.getVerificationCode()).build();
+			.verificationCode(verification.getCode()).build();
 	}
 }

@@ -41,8 +41,7 @@ public class VerificationService
 	@Transactional
 	public void saveVerificationCode(Long userId, Long verificationCode)
 	{
-		final Verification verification = Verification.builder().userid(userId).verificationCode(verificationCode).created(Timestamp.valueOf(now()))
-			.build();
+		final Verification verification = Verification.builder().userid(userId).code(verificationCode).created(Timestamp.valueOf(now())).build();
 		verificationRepository.save(verification);
 		log.info("Verification Code for user with id {} saved in the DB.", userId);
 	}
@@ -55,7 +54,7 @@ public class VerificationService
 		User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND.getMessage()));
 		Verification verification = verificationRepository.findByUserid(user.getId())
 			.orElseThrow(() -> new VerificationFailedException(VERIFICATION_FAILED.getMessage()));
-		if (Objects.equals(verification.getVerificationCode(), request.getVerificationCode()))
+		if (Objects.equals(verification.getCode(), request.getVerificationCode()))
 		{
 			log.info("Verification Code match!");
 			verification.setVerified(true);
