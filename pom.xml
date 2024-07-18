@@ -76,11 +76,6 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.nnaltakyan.api</groupId>
-			<artifactId>coreapi-common-lib</artifactId>
-			<version>0.0.1</version>
-		</dependency>
 	</dependencies>
 
 	<distributionManagement>
