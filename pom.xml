@@ -79,7 +79,7 @@
 		<dependency>
 			<groupId>com.nnaltakyan.api</groupId>
 			<artifactId>coreapi-common-lib</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.5</version>
 		</dependency>
 	</dependencies>
 
@@ -88,6 +88,9 @@
 			<id>github</id>
 			<name>GitHub nareknaltakyan1 Apache Maven Packages</name>
 			<url>https://maven.pkg.github.com/nareknaltakyan1/coreapi-common-lib</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 
