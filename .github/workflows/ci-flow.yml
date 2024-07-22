@@ -67,7 +67,7 @@ jobs:
 
   spotless_check:
     runs-on: ubuntu-latest
-    needs: setup
+    needs: build
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -79,7 +79,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: build
+    needs: spotless_check
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
