@@ -10,24 +10,11 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  setup:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:12-alpine
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_USER: coreapi_auth
-          POSTGRES_PASSWORD: coreapi_auth
-          POSTGRES_DB: coreapi_auth
-        options: >-
-          --health-cmd "pg_isready -U $POSTGRES_USER"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -48,38 +35,59 @@ jobs:
                     </server>
                   </servers>
                 </settings>' > ~/.m2/settings.xml
+      - name: Save Maven settings
+        id: maven-settings
+        run: echo "MAVEN_SETTINGS_PATH=~/.m2/settings.xml" >> $GITHUB_ENV
+
+  build:
+    runs-on: ubuntu-latest
+    needs: setup
+    services:
+      postgres:
+        image: postgres:12-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: coreapi_auth
+          POSTGRES_PASSWORD: coreapi_auth
+          POSTGRES_DB: coreapi_auth
+        options: >-
+          --health-cmd "pg_isready -U $POSTGRES_USER"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Build with Maven
-        run: mvn -B package -DskipTests --file pom.xml
+        env:
+          MAVEN_SETTINGS: ${{ env.MAVEN_SETTINGS_PATH }}
+        run: mvn -B package -DskipTests --file pom.xml --settings $MAVEN_SETTINGS
 
   spotless_check:
     runs-on: ubuntu-latest
-    needs: build
+    needs: setup
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Run spotless check
-        run: mvn spotless:check
-
-  # spotbugs:
-  #     runs-on: ubuntu-latest
-  #     needs: spotless_check
-  #     steps:
-  #       - name: Checkout repository
-  #         uses: actions/checkout@v4
-
-  #       - name: Run SpotBugs
-  #         run: mvn spotbugs:check
+        env:
+          MAVEN_SETTINGS: ${{ env.MAVEN_SETTINGS_PATH }}
+        run: mvn spotless:check --settings $MAVEN_SETTINGS
 
   test:
     runs-on: ubuntu-latest
-    needs: spotless_check
+    needs: setup
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Run tests with Maven and generate JaCoCo report
-        run: mvn test jacoco:report
+        env:
+          MAVEN_SETTINGS: ${{ env.MAVEN_SETTINGS_PATH }}
+        run: mvn test jacoco:report --settings $MAVEN_SETTINGS
 
   upload_report:
     runs-on: ubuntu-latest
