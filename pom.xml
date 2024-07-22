@@ -81,6 +81,11 @@
 			<artifactId>coreapi-common-lib</artifactId>
 			<version>0.0.5</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.12</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>
