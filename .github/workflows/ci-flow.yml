@@ -40,8 +40,17 @@ jobs:
                     <password>${{ secrets.TOKEN_GITHUB }}</password>
                   </server>
                 </servers>
-              </settings>' > ~/.m2/settings.xml>
-        mvn -B package -DskipTests --file pom.xml    
+                <mirrors>
+                  <mirror>
+                    <id>github</id>
+                    <mirrorOf>central</mirrorOf>
+                    <url>https://maven.pkg.github.com/nareknaltakyan1/coreapi-common-lib</url>
+                  </mirror>
+                </mirrors>
+              </settings>' > ~/.m2/settings.xml
+
+    - name: Build with Maven
+      run: mvn -B package -DskipTests --file pom.xml
 
   # build:
   #   runs-on: ubuntu-latest
