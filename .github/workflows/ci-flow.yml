@@ -40,36 +40,31 @@ jobs:
                     <password>${{ secrets.TOKEN_GITHUB }}</password>
                   </server>
                 </servers>
-              </settings>' > ~/.m2/settings.xml
+              </settings>' > ~/.m2/settings.xml>
+        mvn -B package -DskipTests --file pom.xml    
 
-  build:
-    runs-on: ubuntu-latest
-    needs: configure-maven
+  # build:
+  #   runs-on: ubuntu-latest
+  #   needs: configure-maven
 
-    services:
-      postgres:
-        image: postgres:12-alpine
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_USER: coreapi_auth
-          POSTGRES_PASSWORD: coreapi_auth
-          POSTGRES_DB: coreapi_auth
-        options: >-
-          --health-cmd "pg_isready -U $POSTGRES_USER"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Build with Maven
-      run: mvn -B package -DskipTests --file pom.xml
+  #   services:
+  #     postgres:
+  #       image: postgres:12-alpine
+  #       ports:
+  #         - 5432:5432
+  #       env:
+  #         POSTGRES_USER: coreapi_auth
+  #         POSTGRES_PASSWORD: coreapi_auth
+  #         POSTGRES_DB: coreapi_auth
+  #       options: >-
+  #         --health-cmd "pg_isready -U $POSTGRES_USER"
+  #         --health-interval 10s
+  #         --health-timeout 5s
+  #         --health-retries 5
 
   spotless_check:
     runs-on: ubuntu-latest
-    needs: build
+    needs: configure-maven
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
