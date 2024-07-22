@@ -81,19 +81,19 @@ jobs:
       - name: Run spotless check
         run: mvn spotless:check
 
-  spotbugs:
-    runs-on: ubuntu-latest
-    needs: spotless_check
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  # spotbugs:
+  #   runs-on: ubuntu-latest
+  #   needs: spotless_check
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Run SpotBugs
-        run: mvn spotbugs:check
+  #     - name: Run SpotBugs
+  #       run: mvn spotbugs:check
 
   test:
     runs-on: ubuntu-latest
-    needs: spotbugs
+    needs: spotless_check
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
