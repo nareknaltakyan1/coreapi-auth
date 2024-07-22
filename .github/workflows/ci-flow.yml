@@ -21,7 +21,7 @@ jobs:
         cache: maven
   build:
     runs-on: ubuntu-latest
-
+    needs:  setup-jdk
     services:
       postgres:
         image: postgres:12-alpine
