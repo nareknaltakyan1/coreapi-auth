@@ -1,4 +1,5 @@
 name: Java CI with Maven
+# Workflow Version: 1.0
 
 env:
   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.11-9/x64
