@@ -39,6 +39,9 @@ jobs:
               </server> \
             </servers> \
           </settings>" > $HOME/.m2/settings.xml
+          
+          # Verify the settings.xml file is created
+          cat $HOME/.m2/settings.xml
 
   build:
     runs-on: ubuntu-latest
