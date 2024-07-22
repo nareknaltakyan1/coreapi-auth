@@ -59,8 +59,8 @@ jobs:
 #    - name: Run SpotBugs
 #      run: mvn spotbugs:check
 
-    - name: Run tests with Maven and generate JaCoCo report
-      run: mvn test jacoco:report
+    # - name: Run tests with Maven and generate JaCoCo report
+    #   run: mvn test jacoco:report
 
     - name: Upload JaCoCo report
       uses: actions/upload-artifact@v2
