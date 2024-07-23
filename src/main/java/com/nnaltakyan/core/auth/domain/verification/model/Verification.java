@@ -23,7 +23,7 @@ public class Verification
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Long userid;
-	private Long code;
+	private String code;
 	private Timestamp created;
 	private Boolean verified;
 }

@@ -11,6 +11,7 @@ import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticateRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.AuthenticationResponse;
 import com.nnaltakyan.core.auth.rest.authentication.dto.RegisterRequest;
 import com.nnaltakyan.core.auth.rest.authentication.dto.RegisterResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,15 +31,16 @@ public class AuthenticationService
 	private final VerificationService verificationService;
 	private final SendVerificationEmailEventPublisher sendVerificationEmailEventPublisher;
 
+	@Transactional
 	public RegisterResponse register(final RegisterRequest registerRequest)
 	{
 		var user = User.builder().firstName(registerRequest.getFirstName()).lastName(registerRequest.getLastName()).email(registerRequest.getEmail())
 			.password(passwordEncoder.encode(registerRequest.getPassword())).role(Role.USER).created(registerRequest.getCreated())
 			.updated(registerRequest.getUpdated()).build();
 		userRepository.save(user);
-		verificationService.createVerificationCodeAndSaveInDB(user);
+		verificationService.generateAndPersistVerificationCode(user);
 		sendVerificationEmailEventPublisher.publishEvent(SendVerificationEmailEvent.builder().withUserId(user.getId()).build());
-		return RegisterResponse.builder().userId(user.getId()).status(user.getStatus().getStatus()).email(user.getEmail()).build();
+		return RegisterResponse.builder().userId(user.getId()).status(user.getStatus().name()).email(user.getEmail()).build();
 	}
 
 	public AuthenticationResponse authenticate(final AuthenticateRequest authenticateRequest)

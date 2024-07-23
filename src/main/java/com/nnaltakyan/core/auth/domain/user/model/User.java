@@ -76,4 +76,10 @@ public class User implements UserDetails
 	{
 		return true;
 	}
+
+	public void markAsVerified()
+	{
+		this.setStatus(UserStatus.VERIFIED);
+
+	}
 }

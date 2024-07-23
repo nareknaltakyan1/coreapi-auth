@@ -11,6 +11,6 @@ public class VerificationEmailSendingEvent
 	String fromEmail;
 	String toEmail;
 	EmailType emailType;
-	Long verificationCode;
+	String verificationCode;
 	Long userId;
 }
