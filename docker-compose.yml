@@ -1,3 +1,4 @@
+#needs to be moved to a separate repository
 version: '3.8'
 services:
 
@@ -31,6 +32,11 @@ services:
       - SPRING_DATASOURCE_PASSWORD=S0m3h@rdPass!
     ports:
       - "8081:8081"
+
+  coreapi-gateway:
+      image: asgrigoryan/coreapi-gateway:latest
+      ports:
+        - "8085:8085"
 
 volumes:
   my-db:
