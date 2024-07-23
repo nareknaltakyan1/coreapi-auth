@@ -30,7 +30,7 @@ public class SendVerificationEmailEventListener
 	private final UserRepository userRepository;
 	private final VerificationRepository verificationRepository;
 	private final SendVerificationEmailKafkaProducer kafkaProducer;
-	@Value(value="${system.email}")
+	@Value(value = "${system.email}")
 	private final String SYSTEM_EMAIL;
 
 	@TransactionalEventListener
@@ -46,7 +46,7 @@ public class SendVerificationEmailEventListener
 
 	private VerificationEmailSendingEvent buildEvent(final User user, final Verification verification)
 	{
-		return VerificationEmailSendingEvent.builder().fromEmail(SYSTEM_EMAIL).toEmail(user.getEmail()).emailType(EmailType.VERIFICATION).userId(user.getId())
-			.verificationCode(verification.getCode()).build();
+		return VerificationEmailSendingEvent.builder().fromEmail(SYSTEM_EMAIL).toEmail(user.getEmail()).emailType(EmailType.VERIFICATION)
+			.userId(user.getId()).verificationCode(verification.getCode()).build();
 	}
 }

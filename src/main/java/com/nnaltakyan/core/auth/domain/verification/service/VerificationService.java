@@ -52,7 +52,8 @@ public class VerificationService
 	{
 		var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND.getMessage()));
 		var verificationResponse = VerificationResponse.builder().verified(false).build();
-		if (!CREATED.equals(user.getStatus())){
+		if (!CREATED.equals(user.getStatus()))
+		{
 			log.info("User id: {} is not in CREATED states", user.getId());
 			// todo 23/07/2024 throw custom exception
 			return verificationResponse;
